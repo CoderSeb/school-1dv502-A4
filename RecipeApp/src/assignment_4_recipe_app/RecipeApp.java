@@ -20,18 +20,4 @@ public class RecipeApp {
     RecipeHandleFile.checkFiles();
     consoleStuff.showOptions();
   }
-
-  public static void handleOptions(int option) {
-    System.out.println(option);
-    switch (option) {
-      case 1:
-        System.out.println("Create a new ingredient");
-        break;
-      case 2:
-        System.out.println("Create a new recipe");
-        break;
-      default:
-        System.out.println("About to exit");
-    }
-  }
 }

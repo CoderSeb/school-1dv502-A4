@@ -2,10 +2,15 @@ package assignment_4_recipe_app;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.FileWriter;
+import java.util.*;
+import org.json.JSONObject;
+import org.json.JSONArray;
 
 public class RecipeHandleFile {
-  static File recipeFile = new File("./files/recipes.txt");
-  static File ingredientFile = new File("./files/ingredients.txt");
+  @SuppressWarnings("unchecked")
+  static File recipeFile = new File("./files/recipes.json");
+  static File ingredientFile = new File("./files/ingredients.json");
 
   public static void checkFiles() {
     try {
@@ -31,5 +36,27 @@ public class RecipeHandleFile {
       System.out.println("An error occurred!");
       e.printStackTrace();
     }
+  }
+
+  public static void writeToRecipe(String newRecipeName) {
+    Recipe newRecipe = new Recipe(newRecipeName);
+    JSONObject recipeDetails = new JSONObject();
+    recipeDetails.put("name", newRecipe.name);
+    JSONObject recipeObject = new JSONObject();
+    recipeObject.put("recipe", recipeDetails);
+    JSONArray recipeList = new JSONArray();
+    recipeList.put(recipeObject);
+    try {
+      FileWriter recipeFile = new FileWriter("./files/recipes.json");
+      recipeFile.write(recipeList.toString());
+      recipeFile.close();
+    } catch (IOException e) {
+      System.out.println("An error occurred!");
+      e.printStackTrace();
+    }
+  }
+
+  public static void readRecipes() {
+
   }
 }
