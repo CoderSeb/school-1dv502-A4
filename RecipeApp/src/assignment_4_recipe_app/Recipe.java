@@ -7,6 +7,7 @@ public class Recipe {
   int numberOfPortions;
   ArrayList<String> commentList;
   ArrayList<String> instructionList;
+  ArrayList<Ingredient> ingredientList;
 
   public Recipe(String name) {
     this.name = name;
@@ -22,5 +23,9 @@ public class Recipe {
 
   public void addInstruction(String instruction) {
     instructionList.add(instruction);
+  }
+
+  public void addIngredient(Ingredient newIngredient) {
+    ingredientList.add(newIngredient);
   }
 }

@@ -22,6 +22,7 @@ public class RecipeHandleConsole {
     switch (option) {
     case 1:
       System.out.println("Create a new ingredient");
+      createIngredient();
       showOptions();
       break;
     case 2:
@@ -34,5 +35,18 @@ public class RecipeHandleConsole {
     default:
       System.out.println("About to exit");
     }
+  }
+
+  public static void createIngredient() {
+    System.out.println("Ingredient name: ");
+    optScanner.nextLine();
+    String ingredientName = optScanner.nextLine();
+    System.out.println("Unit of measure: ");
+    String unit = optScanner.nextLine();
+    System.out.println("Price: ");
+    double price = optScanner.nextDouble();
+    System.out.println("New ingredient is: " + ingredientName + ":" + unit + ":" + price);
+    Ingredient newIngredient = new Ingredient(ingredientName, unit, price);
+    RecipeHandleFile.writeIngredient(newIngredient);
   }
 }

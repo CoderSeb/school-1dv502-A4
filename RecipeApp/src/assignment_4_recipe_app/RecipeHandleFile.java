@@ -59,4 +59,21 @@ public class RecipeHandleFile {
   public static void readRecipes() {
 
   }
+
+  public static void writeIngredient(Ingredient newIngredient) {
+    JSONObject ingredientJson = new JSONObject();
+    ingredientJson.put("name", newIngredient.name);
+    ingredientJson.put("unit", newIngredient.unitOfMeasure);
+    ingredientJson.put("price", newIngredient.price);
+    JSONArray ingredientList = new JSONArray();
+    ingredientList.put(ingredientJson);
+    try {
+      FileWriter ingredientFile = new FileWriter("./files/ingredients.json");
+      ingredientFile.write(ingredientList.toString());
+      ingredientFile.close();
+    } catch (IOException e) {
+      System.out.println("An error occurred!");
+      e.printStackTrace();
+    }
+  }
 }
