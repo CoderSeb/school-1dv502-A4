@@ -1,14 +1,15 @@
 package assignment_4_recipe_app;
 
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
 import java.io.IOException;
 import java.io.FileWriter;
 import java.util.*;
-import org.json.JSONObject;
-import org.json.JSONArray;
+import org.json.*;
 
 public class RecipeHandleFile {
-  @SuppressWarnings("unchecked")
   static File recipeFile = new File("./files/recipes.json");
   static File ingredientFile = new File("./files/ingredients.json");
 
@@ -44,7 +45,7 @@ public class RecipeHandleFile {
     recipeDetails.put("name", newRecipe.name);
     JSONObject recipeObject = new JSONObject();
     recipeObject.put("recipe", recipeDetails);
-    JSONArray recipeList = new JSONArray();
+    JSONArray recipeList = readRecipes();
     recipeList.put(recipeObject);
     try {
       FileWriter recipeFile = new FileWriter("./files/recipes.json");
@@ -56,8 +57,26 @@ public class RecipeHandleFile {
     }
   }
 
-  public static void readRecipes() {
+  public static JSONArray readRecipes() {
+    try {
+      JSONTokener jsonToken = new JSONTokener(new FileInputStream(recipeFile));
+      JSONArray recipeArray = new JSONArray(jsonToken);
+      return recipeArray;
+    } catch (FileNotFoundException e) {
+      e.printStackTrace();
+    }
+    return null;
+  }
 
+  public static JSONArray readIngredients() {
+    try {
+      JSONTokener jsonToken = new JSONTokener(new FileInputStream(ingredientFile));
+      JSONArray ingredientArray = new JSONArray(jsonToken);
+      return ingredientArray;
+    } catch (FileNotFoundException e) {
+      e.printStackTrace();
+    }
+    return null;
   }
 
   public static void writeIngredient(Ingredient newIngredient) {
@@ -65,7 +84,7 @@ public class RecipeHandleFile {
     ingredientJson.put("name", newIngredient.name);
     ingredientJson.put("unit", newIngredient.unitOfMeasure);
     ingredientJson.put("price", newIngredient.price);
-    JSONArray ingredientList = new JSONArray();
+    JSONArray ingredientList = readIngredients();
     ingredientList.put(ingredientJson);
     try {
       FileWriter ingredientFile = new FileWriter("./files/ingredients.json");
