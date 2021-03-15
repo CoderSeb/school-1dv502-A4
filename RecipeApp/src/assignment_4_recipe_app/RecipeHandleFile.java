@@ -43,10 +43,8 @@ public class RecipeHandleFile {
     Recipe newRecipe = new Recipe(newRecipeName);
     JSONObject recipeDetails = new JSONObject();
     recipeDetails.put("name", newRecipe.name);
-    JSONObject recipeObject = new JSONObject();
-    recipeObject.put("recipe", recipeDetails);
     JSONArray recipeList = readRecipes();
-    recipeList.put(recipeObject);
+    recipeList.put(recipeDetails);
     try {
       FileWriter recipeFile = new FileWriter("./files/recipes.json");
       recipeFile.write(recipeList.toString());
@@ -57,6 +55,11 @@ public class RecipeHandleFile {
     }
   }
 
+  /**
+   * Returns a JSONArray with recipes.
+   * 
+   * @return JSONArray.
+   */
   public static JSONArray readRecipes() {
     try {
       JSONTokener jsonToken = new JSONTokener(new FileInputStream(recipeFile));
@@ -68,6 +71,11 @@ public class RecipeHandleFile {
     return null;
   }
 
+  /**
+   * Returns a JSONArray with ingredients.
+   * 
+   * @return JSONArray.
+   */
   public static JSONArray readIngredients() {
     try {
       JSONTokener jsonToken = new JSONTokener(new FileInputStream(ingredientFile));

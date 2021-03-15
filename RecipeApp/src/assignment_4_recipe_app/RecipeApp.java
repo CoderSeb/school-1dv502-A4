@@ -15,8 +15,6 @@ public class RecipeApp {
   static void startApp() {
     RecipeHandleConsole.sayWelcome();
     RecipeHandleFile.checkFiles();
-    RecipeHandleConsole.printRecipes();
-    RecipeHandleConsole.printIngredients();
-    RecipeHandleConsole.showOptions();
+    RecipeHandleConsole.showMainOptions();
   }
 }
