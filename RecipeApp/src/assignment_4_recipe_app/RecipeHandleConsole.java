@@ -20,7 +20,6 @@ public class RecipeHandleConsole {
   }
 
   public static void handleMainOptions(int option) {
-    System.out.println(option);
     switch (option) {
     case 1:
       showIngredientOptions();
@@ -53,8 +52,9 @@ public class RecipeHandleConsole {
       showIngredientOptions();
       break;
     case 'c':
-      // TODO: Functionality to remove aan ingredient.
-      System.out.println("Remove Ingredient....");
+      System.out.println("Type ingredient name to remove: ");
+      optScanner.nextLine();
+      RecipeHandleFile.removeIngredient(optScanner.nextLine());
       showIngredientOptions();
     default:
       showMainOptions();
@@ -78,10 +78,7 @@ public class RecipeHandleConsole {
       showRecipeOptions();
       break;
     case 'b':
-      System.out.println("Type a new recipe name: \n");
-      optScanner.nextLine();
-      String newRecipeName = optScanner.nextLine();
-      RecipeHandleFile.writeToRecipe(newRecipeName);
+      createRecipe();
       showRecipeOptions();
       break;
     case 'c':
@@ -102,11 +99,21 @@ public class RecipeHandleConsole {
     }
   }
 
+  public static void createRecipe() {
+    System.out.println("Type a new recipe name: \n");
+    optScanner.nextLine();
+    String newRecipeName = optScanner.nextLine();
+    RecipeHandleFile.writeToRecipe(newRecipeName);
+  }
+
   public static void showIngredients() {
     System.out.println("\nIngredients\n" + "---------------");
     JSONArray ingredients = RecipeHandleFile.readIngredients();
     for (int i = 0; i < ingredients.length(); i++) {
-      System.out.println(ingredients.getJSONObject(i).get("name"));
+      Object name = ingredients.getJSONObject(i).get("name");
+      Object unit = ingredients.getJSONObject(i).get("unit");
+      Object price = ingredients.getJSONObject(i).get("price");
+      System.out.println(name + ":" + unit + ":" + price);
     }
   }
 

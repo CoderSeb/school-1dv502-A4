@@ -94,6 +94,10 @@ public class RecipeHandleFile {
     ingredientJson.put("price", newIngredient.price);
     JSONArray ingredientList = readIngredients();
     ingredientList.put(ingredientJson);
+    updateIngredients(ingredientList);
+  }
+
+  public static void updateIngredients(JSONArray ingredientList) {
     try {
       FileWriter ingredientFile = new FileWriter("./files/ingredients.json");
       ingredientFile.write(ingredientList.toString());
@@ -102,5 +106,16 @@ public class RecipeHandleFile {
       System.out.println("An error occurred!");
       e.printStackTrace();
     }
+  }
+
+  public static void removeIngredient(String ingredientName) {
+    JSONArray ingredients = readIngredients();
+    for (int i = 0; i < ingredients.length(); i++) {
+      if (ingredients.getJSONObject(i).get("name").toString().equals(ingredientName)) {
+        System.out.println("Correct object is found!");
+        ingredients.remove(i);
+      }
+    }
+    updateIngredients(ingredients);
   }
 }
