@@ -50,6 +50,7 @@ public class RecipeHandleFile {
   public static void writeToRecipe(Recipe newRecipe) {
     JSONObject recipeDetails = new JSONObject();
     recipeDetails.put("name", newRecipe.name);
+    recipeDetails.put("portions", newRecipe.portions);
     JSONArray recipeList = readRecipes();
     recipeList.put(recipeDetails);
     updateRecipes(recipeList);
@@ -66,28 +67,29 @@ public class RecipeHandleFile {
     }
   }
 
+  public static JSONObject findRecipe(String recipeName) {
+    JSONArray recipes = readRecipes();
+    JSONObject result = new JSONObject();
+    for (int i = 0; i < recipes.length(); i++) {
+      if (recipes.getJSONObject(i).get("name").toString().equals(recipeName)) {
+        result = recipes.getJSONObject(i);
+        return result;
+      }
+    }
+    return null;
+  }
+
   public static void modifyRecipe(Recipe modifiedRecipe) {
     JSONArray recipes = readRecipes();
-    for (int i = 0; i < recipes.length(); i++) {
-      if (recipes.getJSONObject(i).get("name").toString().equals(modifiedRecipe.name)) {
-        JSONObject recipe = recipes.getJSONObject(i);
-        recipe.put("portions", modifiedRecipe.numberOfPortions);
-        JSONArray commentList = new JSONArray(modifiedRecipe.commentList);
-        JSONArray instructionList = new JSONArray(modifiedRecipe.instructionList);
-        recipe.put("comments", commentList);
-        recipe.put("instructions", instructionList);
-        recipes.put(recipe);
-        updateRecipes(recipes);
-      } else {
-        JSONObject recipe = new JSONObject();
-        recipe.put("portions", modifiedRecipe.numberOfPortions);
-        JSONArray commentList = new JSONArray(modifiedRecipe.commentList);
-        JSONArray instructionList = new JSONArray(modifiedRecipe.instructionList);
-        recipe.put("comments", commentList);
-        recipe.put("instructions", instructionList);
-        recipes.put(recipe);
-        updateRecipes(recipes);
-      }
+    JSONObject recipe = findRecipe(modifiedRecipe.name);
+    if (recipe != null) {
+      recipe.put("portions", modifiedRecipe.portions);
+      JSONArray commentList = new JSONArray(modifiedRecipe.commentList);
+      JSONArray instructionList = new JSONArray(modifiedRecipe.instructionList);
+      recipe.put("comments", commentList);
+      recipe.put("instructions", instructionList);
+      recipes.put(recipe);
+      updateRecipes(recipes);
     }
   }
 

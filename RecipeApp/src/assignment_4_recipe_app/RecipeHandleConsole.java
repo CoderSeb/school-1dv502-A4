@@ -132,17 +132,17 @@ public class RecipeHandleConsole {
     System.out.println("\nRecipes\n" + "---------------");
     JSONArray recipes = RecipeHandleFile.readRecipes();
     for (int i = 0; i < recipes.length(); i++) {
-      System.out.println(recipes.getJSONObject(i).get("name"));
+      System.out
+          .println(recipes.getJSONObject(i).get("name") + ", Portions: " + recipes.getJSONObject(i).get("portions"));
     }
   }
 
   public static void handleRecipeModification() {
     System.out.println("Type recipe name to modify: ");
     optScanner.nextLine();
-    Recipe modifiedRecipe = new Recipe(optScanner.nextLine());
-
+    String recipeName = optScanner.nextLine();
     System.out.println("Type number of portions: ");
-    modifiedRecipe.setNumberOfPortions(optScanner.nextInt());
+    Recipe modifiedRecipe = new Recipe(recipeName, optScanner.nextInt());
 
     System.out.println("Add a comment (empty if next step): ");
     optScanner.nextLine();
@@ -173,7 +173,9 @@ public class RecipeHandleConsole {
     System.out.println("Type a new recipe name: \n");
     optScanner.nextLine();
     String newRecipeName = optScanner.nextLine();
-    Recipe newRecipe = new Recipe(newRecipeName);
+    System.out.print("Number of portions: ");
+    int newPortions = optScanner.nextInt();
+    Recipe newRecipe = new Recipe(newRecipeName, newPortions);
     RecipeHandleFile.writeToRecipe(newRecipe);
   }
 

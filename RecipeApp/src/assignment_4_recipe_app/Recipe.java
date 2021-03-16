@@ -4,17 +4,17 @@ import java.util.*;
 
 public class Recipe {
   String name;
-  int numberOfPortions;
+  int portions;
   ArrayList<String> commentList = new ArrayList<String>();
   ArrayList<String> instructionList = new ArrayList<String>();
   ArrayList<Ingredient> ingredientList = new ArrayList<Ingredient>();
 
-  public Recipe(String name) {
+  public Recipe(String name, int portions) {
     this.name = name;
   }
 
-  public void setNumberOfPortions(int newOfPortions) {
-    this.numberOfPortions = newOfPortions;
+  public void setNumberOfPortions(int newPortions) {
+    this.portions = newPortions;
   }
 
   public void addComment(String comment) {
@@ -34,7 +34,7 @@ public class Recipe {
   }
 
   public int getNumberOfPortions() {
-    return numberOfPortions;
+    return portions;
   }
 
   public ArrayList<String> getComments() {
