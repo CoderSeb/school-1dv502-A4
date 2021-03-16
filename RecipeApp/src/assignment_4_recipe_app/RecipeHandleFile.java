@@ -3,16 +3,17 @@ package assignment_4_recipe_app;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
-import java.io.FileReader;
 import java.io.IOException;
 import java.io.FileWriter;
-import java.util.*;
 import org.json.*;
 
 public class RecipeHandleFile {
   static File recipeFile = new File("./files/recipes.json");
   static File ingredientFile = new File("./files/ingredients.json");
 
+  /**
+   * Looks for the .json files, if not found they will be created.
+   */
   public static void checkFiles() {
     try {
       if (recipeFile.exists()) {
@@ -22,6 +23,7 @@ public class RecipeHandleFile {
         recipeFile.getParentFile().mkdirs();
         if (recipeFile.createNewFile()) {
           System.out.println("File created: " + recipeFile.getName());
+          updateRecipes(new JSONArray());
         }
       }
       if (ingredientFile.exists()) {
@@ -31,6 +33,7 @@ public class RecipeHandleFile {
         ingredientFile.getParentFile().mkdirs();
         if (ingredientFile.createNewFile()) {
           System.out.println("File created: " + ingredientFile.getName());
+          updateIngredients(new JSONArray());
         }
       }
     } catch (IOException e) {
@@ -39,12 +42,20 @@ public class RecipeHandleFile {
     }
   }
 
-  public static void writeToRecipe(String newRecipeName) {
-    Recipe newRecipe = new Recipe(newRecipeName);
+  /**
+   * Writes a new recipe to json.
+   * 
+   * @param newRecipe as the new recipe.
+   */
+  public static void writeToRecipe(Recipe newRecipe) {
     JSONObject recipeDetails = new JSONObject();
     recipeDetails.put("name", newRecipe.name);
     JSONArray recipeList = readRecipes();
     recipeList.put(recipeDetails);
+    updateRecipes(recipeList);
+  }
+
+  public static void updateRecipes(JSONArray recipeList) {
     try {
       FileWriter recipeFile = new FileWriter("./files/recipes.json");
       recipeFile.write(recipeList.toString());
@@ -52,6 +63,31 @@ public class RecipeHandleFile {
     } catch (IOException e) {
       System.out.println("An error occurred!");
       e.printStackTrace();
+    }
+  }
+
+  public static void modifyRecipe(Recipe modifiedRecipe) {
+    JSONArray recipes = readRecipes();
+    for (int i = 0; i < recipes.length(); i++) {
+      if (recipes.getJSONObject(i).get("name").toString().equals(modifiedRecipe.name)) {
+        JSONObject recipe = recipes.getJSONObject(i);
+        recipe.put("portions", modifiedRecipe.numberOfPortions);
+        JSONArray commentList = new JSONArray(modifiedRecipe.commentList);
+        JSONArray instructionList = new JSONArray(modifiedRecipe.instructionList);
+        recipe.put("comments", commentList);
+        recipe.put("instructions", instructionList);
+        recipes.put(recipe);
+        updateRecipes(recipes);
+      } else {
+        JSONObject recipe = new JSONObject();
+        recipe.put("portions", modifiedRecipe.numberOfPortions);
+        JSONArray commentList = new JSONArray(modifiedRecipe.commentList);
+        JSONArray instructionList = new JSONArray(modifiedRecipe.instructionList);
+        recipe.put("comments", commentList);
+        recipe.put("instructions", instructionList);
+        recipes.put(recipe);
+        updateRecipes(recipes);
+      }
     }
   }
 
@@ -69,6 +105,16 @@ public class RecipeHandleFile {
       e.printStackTrace();
     }
     return null;
+  }
+
+  public static void removeRecipe(String recipeName) {
+    JSONArray recipes = readRecipes();
+    for (int i = 0; i < recipes.length(); i++) {
+      if (recipes.getJSONObject(i).get("name").toString().equals(recipeName)) {
+        recipes.remove(i);
+      }
+    }
+    updateRecipes(recipes);
   }
 
   /**

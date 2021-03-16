@@ -5,16 +5,16 @@ import java.util.*;
 public class Recipe {
   String name;
   int numberOfPortions;
-  ArrayList<String> commentList;
-  ArrayList<String> instructionList;
-  ArrayList<Ingredient> ingredientList;
+  ArrayList<String> commentList = new ArrayList<String>();
+  ArrayList<String> instructionList = new ArrayList<String>();
+  ArrayList<Ingredient> ingredientList = new ArrayList<Ingredient>();
 
   public Recipe(String name) {
     this.name = name;
   }
 
   public void setNumberOfPortions(int newOfPortions) {
-    numberOfPortions = newOfPortions;
+    this.numberOfPortions = newOfPortions;
   }
 
   public void addComment(String comment) {
@@ -27,5 +27,25 @@ public class Recipe {
 
   public void addIngredient(Ingredient newIngredient) {
     ingredientList.add(newIngredient);
+  }
+
+  public String getName() {
+    return name;
+  }
+
+  public int getNumberOfPortions() {
+    return numberOfPortions;
+  }
+
+  public ArrayList<String> getComments() {
+    return commentList;
+  }
+
+  public ArrayList<String> getInstructions() {
+    return instructionList;
+  }
+
+  public ArrayList<Ingredient> getIngredients() {
+    return ingredientList;
   }
 }
