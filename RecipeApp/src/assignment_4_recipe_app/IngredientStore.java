@@ -36,7 +36,7 @@ public class IngredientStore {
     ingredientList.add(newIngredient);
   }
 
-  public static void removeIngredientByName(String name) {
+  public void removeIngredientByName(String name) {
     for (int i = 0; i < ingredientList.size(); i++) {
       if (ingredientList.get(i).name.equals(name)) {
         ingredientList.remove(i);

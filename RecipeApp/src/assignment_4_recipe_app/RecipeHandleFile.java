@@ -7,9 +7,12 @@ import java.io.IOException;
 import java.io.FileWriter;
 import org.json.*;
 
+/**
+ * Class for RecipeHandleFile.
+ */
 public class RecipeHandleFile {
-  static File recipeFile = new File("./files/recipes.json");
-  static File ingredientFile = new File("./files/ingredients.json");
+  private static File recipeFile = new File("./files/recipes.json");
+  private static File ingredientFile = new File("./files/ingredients.json");
 
   /**
    * Looks for the .json files, if not found they will be created.
@@ -47,7 +50,7 @@ public class RecipeHandleFile {
    * 
    * @param newRecipe as the new recipe.
    */
-  public static void writeToRecipe(Recipe newRecipe) {
+  private static void writeToRecipe(Recipe newRecipe) {
     JSONObject recipeDetails = new JSONObject();
     recipeDetails.put("name", newRecipe.name);
     recipeDetails.put("portions", newRecipe.portions);
@@ -62,7 +65,12 @@ public class RecipeHandleFile {
     updateRecipes(recipeList);
   }
 
-  public static void updateRecipes(JSONArray recipeList) {
+  /**
+   * Updates the recipes.json with the given JSONArray.
+   * 
+   * @param recipeList as the JSONArray.
+   */
+  private static void updateRecipes(JSONArray recipeList) {
     try {
       FileWriter recipeFile = new FileWriter("./files/recipes.json");
       recipeFile.write(recipeList.toString());
@@ -70,32 +78,6 @@ public class RecipeHandleFile {
     } catch (IOException e) {
       System.out.println("An error occurred!");
       e.printStackTrace();
-    }
-  }
-
-  public static JSONObject findRecipe(String recipeName) {
-    JSONArray recipes = readRecipes();
-    JSONObject result = new JSONObject();
-    for (int i = 0; i < recipes.length(); i++) {
-      if (recipes.getJSONObject(i).get("name").toString().equals(recipeName)) {
-        result = recipes.getJSONObject(i);
-        return result;
-      }
-    }
-    return null;
-  }
-
-  public static void modifyRecipe(Recipe modifiedRecipe) {
-    JSONArray recipes = readRecipes();
-    JSONObject recipe = findRecipe(modifiedRecipe.name);
-    if (recipe != null) {
-      recipe.put("portions", modifiedRecipe.portions);
-      JSONArray commentList = new JSONArray(modifiedRecipe.commentList);
-      JSONArray instructionList = new JSONArray(modifiedRecipe.instructionList);
-      recipe.put("comments", commentList);
-      recipe.put("instructions", instructionList);
-      recipes.put(recipe);
-      updateRecipes(recipes);
     }
   }
 
@@ -146,6 +128,11 @@ public class RecipeHandleFile {
     return null;
   }
 
+  /**
+   * Updates the ingredient.json with the given JSONArray.
+   * 
+   * @param ingredientList as the JSONArray.
+   */
   private static void updateIngredients(JSONArray ingredientList) {
     try {
       FileWriter ingredientFile = new FileWriter("./files/ingredients.json");
@@ -157,6 +144,11 @@ public class RecipeHandleFile {
     }
   }
 
+  /**
+   * Writes an ingredient to Json.
+   * 
+   * @param newIngredient as the Ingredient.a
+   */
   private static void writeIngredient(Ingredient newIngredient) {
     JSONObject ingredientJson = new JSONObject();
     ingredientJson.put("name", newIngredient.getName());
@@ -167,17 +159,31 @@ public class RecipeHandleFile {
     updateIngredients(ingredientList);
   }
 
+  /**
+   * Saves RecipeBook to json.
+   * 
+   * @param listToAdd as the RecipeBook to save.
+   */
   private static void saveRecipes(RecipeBook listToAdd) {
     updateRecipes(new JSONArray());
     listToAdd.getAllRecipes().forEach(recipe -> writeToRecipe(recipe));
   }
 
+  /**
+   * Saves IngredientStore to json.
+   * 
+   * @param listToAdd as the IngredientStore to save.
+   */
   private static void saveIngredients(IngredientStore listToAdd) {
     listToAdd.getAllIngredients().forEach(ingredient -> {
       writeIngredient(ingredient);
     });
   }
 
+  /**
+   * Calls the appropriate methods to save the current IngredientStore and
+   * RecipeBook to Json.
+   */
   public static void saveToJson() {
     updateIngredients(new JSONArray());
     saveIngredients(RecipeApp.ingredients);

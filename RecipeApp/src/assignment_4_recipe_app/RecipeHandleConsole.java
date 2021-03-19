@@ -1,8 +1,6 @@
 package assignment_4_recipe_app;
 
 import java.util.Scanner;
-import org.json.JSONArray;
-import org.json.JSONObject;
 
 public class RecipeHandleConsole {
   static Scanner optScanner = new Scanner(System.in);
@@ -72,6 +70,7 @@ public class RecipeHandleConsole {
       showIngredientOptions();
       break;
     case 'c':
+      promptRemoveIngredient();
       showIngredientOptions();
       break;
     default:
@@ -88,6 +87,9 @@ public class RecipeHandleConsole {
     RecipeApp.ingredients.getAllIngredients().forEach(ingredient -> ingredient.parseToString());
   }
 
+  /**
+   * Prompts user for details to create a new ingredient.
+   */
   public static void promptNewIngredient() {
     System.out.println("Name of new ingredient:");
     optScanner.nextLine();
@@ -100,6 +102,15 @@ public class RecipeHandleConsole {
     RecipeApp.ingredients.addIngredient(newIngredient);
     System.out.println("Successfully added ingredient");
     newIngredient.parseToString();
+  }
+
+  /**
+   * Prompts user for name to remove an ingredient.
+   */
+  public static void promptRemoveIngredient() {
+    System.out.println("Name of ingredient to remove:");
+    optScanner.nextLine();
+    RecipeApp.ingredients.removeIngredientByName(optScanner.nextLine());
   }
 
   /**
@@ -148,5 +159,4 @@ public class RecipeHandleConsole {
     System.out.println("\nRecipes\n" + "---------------");
     RecipeApp.recipes.getAllRecipes().forEach(recipe -> recipe.parseToString());
   }
-
 }
