@@ -11,28 +11,26 @@ public class RecipeBook {
     JSONArray recipesFromJson = RecipeHandleFile.readRecipes();
     for (int i = 0; i < recipesFromJson.length(); i++) {
       JSONObject recipe = recipesFromJson.getJSONObject(i);
-      String name = recipe.get("name").toString();
-      int portions = (int) recipe.get("portions");
-      Recipe newRecipe = new Recipe(name, portions);
-
+      Recipe newRecipe = new Recipe();
+      newRecipe.setName(recipe.get("name").toString());
+      newRecipe.setNumberOfPortions(recipe.getInt("portions"));
       JSONArray ingredients = (JSONArray) recipe.get("ingredients");
       for (int n = 0; n < ingredients.length(); n++) {
         String ingredientName = ingredients.getJSONObject(i).get("name").toString();
-        String ingredientUnit = ingredients.getJSONObject(i).get("unit").toString();
-        Double ingredientTotalPrice = (Double) ingredients.getJSONObject(i).get("totalPrice");
-        int ingredientAmount = (int) ingredients.getJSONObject(i).get("amount");
-        newRecipe
-            .addIngredient(ingredientName + ":" + ingredientAmount + " " + ingredientUnit + ":" + ingredientTotalPrice);
+        Ingredient newIngredient = RecipeApp.ingredients.getIngredientByName(ingredientName);
+        if (newIngredient != null) {
+          newRecipe.addIngredient(newIngredient);
+        }
       }
 
-      JSONArray instructions = (JSONArray) recipe.get("instructions");
+      JSONArray instructions = recipe.getJSONArray("instructions");
       for (int n = 0; n < instructions.length(); n++) {
-        newRecipe.addInstruction(instructions.getJSONObject(n).toString());
+        newRecipe.addInstruction(instructions.getString(n));
       }
 
-      JSONArray comments = (JSONArray) recipe.get("comments");
+      JSONArray comments = recipe.getJSONArray("comments");
       for (int n = 0; n < comments.length(); n++) {
-        newRecipe.addComment(comments.getJSONObject(n).toString());
+        newRecipe.addComment(comments.getString(n));
       }
 
       recipeList.add(newRecipe);
@@ -41,6 +39,10 @@ public class RecipeBook {
 
   public ArrayList<Recipe> getAllRecipes() {
     return recipeList;
+  }
+
+  public void addRecipe(Recipe newRecipe) {
+    recipeList.add(newRecipe);
   }
 
   public static Recipe getRecipeByName(String name) {

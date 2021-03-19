@@ -2,6 +2,9 @@ package assignment_4_recipe_app;
 
 import java.util.Scanner;
 
+/**
+ * Class for RecipeHandleConsole.
+ */
 public class RecipeHandleConsole {
   static Scanner optScanner = new Scanner(System.in);
 
@@ -138,6 +141,7 @@ public class RecipeHandleConsole {
       showRecipeOptions();
       break;
     case 'b':
+      promptNewRecipe();
       showRecipeOptions();
       break;
     case 'c':
@@ -158,5 +162,52 @@ public class RecipeHandleConsole {
   public static void showRecipes() {
     System.out.println("\nRecipes\n" + "---------------");
     RecipeApp.recipes.getAllRecipes().forEach(recipe -> recipe.parseToString());
+  }
+
+  /**
+   * Prompts user for details to create a recipe.
+   */
+  public static void promptNewRecipe() {
+    System.out.println("Name of the new recipe:");
+    optScanner.nextLine();
+    Recipe newRecipe = new Recipe();
+    newRecipe.setName(optScanner.nextLine());
+    System.out.println("Number of portions:");
+    newRecipe.setNumberOfPortions(optScanner.nextInt());
+    showIngredients();
+    System.out.println("Add an ingredient (name has to be exact) (empty if next step):");
+    optScanner.nextLine();
+    String ingredientName = optScanner.nextLine();
+    while (ingredientName.length() != 0) {
+      Ingredient ingredientToAdd = RecipeApp.ingredients.getIngredientByName(ingredientName);
+      if (ingredientToAdd != null) {
+        newRecipe.addIngredient(ingredientToAdd);
+        System.out.println("Add an ingredient (name has to be exact) (empty if next step):");
+        ingredientName = optScanner.nextLine();
+      } else {
+        System.out.println("Ingredient cannot be found!");
+        System.out.println("Add an ingredient (name has to be exact) (empty if next step):");
+        ingredientName = optScanner.nextLine();
+      }
+    }
+
+    System.out.println("Add an instruction (empty if next step):");
+    String newInstruction = optScanner.nextLine();
+    while (newInstruction.length() != 0) {
+      newRecipe.addInstruction(newInstruction);
+      System.out.println("Add an instruction (empty if next step):");
+      newInstruction = optScanner.nextLine();
+    }
+
+    System.out.println("Add a comment (empty if next step):");
+    String newComment = optScanner.nextLine();
+    while (newComment.length() != 0) {
+      newRecipe.addComment(newComment);
+      System.out.println("Add a comment (empty if next step):");
+      newComment = optScanner.nextLine();
+    }
+
+    RecipeApp.recipes.addRecipe(newRecipe);
+
   }
 }

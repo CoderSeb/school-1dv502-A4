@@ -22,6 +22,9 @@ public class RecipeApp {
     RecipeHandleConsole.showMainOptions();
   }
 
+  /**
+   * Called when the user wants to close the application.
+   */
   static void closeApp() {
     RecipeHandleFile.saveToJson();
   }

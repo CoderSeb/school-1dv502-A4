@@ -23,7 +23,7 @@ public class IngredientStore {
     return ingredientList;
   }
 
-  public static Ingredient getIngredientByName(String name) {
+  public Ingredient getIngredientByName(String name) {
     for (int i = 0; i < ingredientList.size(); i++) {
       if (ingredientList.get(i).name.equals(name)) {
         return ingredientList.get(i);
