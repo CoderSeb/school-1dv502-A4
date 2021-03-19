@@ -51,6 +51,12 @@ public class RecipeHandleFile {
     JSONObject recipeDetails = new JSONObject();
     recipeDetails.put("name", newRecipe.name);
     recipeDetails.put("portions", newRecipe.portions);
+    JSONArray ingredientList = new JSONArray(newRecipe.ingredientList);
+    JSONArray instructionList = new JSONArray(newRecipe.instructionList);
+    JSONArray commentList = new JSONArray(newRecipe.commentList);
+    recipeDetails.put("ingredients", ingredientList);
+    recipeDetails.put("instructions", instructionList);
+    recipeDetails.put("comments", commentList);
     JSONArray recipeList = readRecipes();
     recipeList.put(recipeDetails);
     updateRecipes(recipeList);
@@ -109,6 +115,11 @@ public class RecipeHandleFile {
     return null;
   }
 
+  /**
+   * Removes a recipe given the name.
+   * 
+   * @param recipeName as the recipe name.
+   */
   public static void removeRecipe(String recipeName) {
     JSONArray recipes = readRecipes();
     for (int i = 0; i < recipes.length(); i++) {
@@ -135,17 +146,7 @@ public class RecipeHandleFile {
     return null;
   }
 
-  public static void writeIngredient(Ingredient newIngredient) {
-    JSONObject ingredientJson = new JSONObject();
-    ingredientJson.put("name", newIngredient.name);
-    ingredientJson.put("unit", newIngredient.unitOfMeasure);
-    ingredientJson.put("price", newIngredient.price);
-    JSONArray ingredientList = readIngredients();
-    ingredientList.put(ingredientJson);
-    updateIngredients(ingredientList);
-  }
-
-  public static void updateIngredients(JSONArray ingredientList) {
+  private static void updateIngredients(JSONArray ingredientList) {
     try {
       FileWriter ingredientFile = new FileWriter("./files/ingredients.json");
       ingredientFile.write(ingredientList.toString());
@@ -156,14 +157,30 @@ public class RecipeHandleFile {
     }
   }
 
-  public static void removeIngredient(String ingredientName) {
-    JSONArray ingredients = readIngredients();
-    for (int i = 0; i < ingredients.length(); i++) {
-      if (ingredients.getJSONObject(i).get("name").toString().equals(ingredientName)) {
-        System.out.println("Correct object is found!");
-        ingredients.remove(i);
-      }
-    }
-    updateIngredients(ingredients);
+  private static void writeIngredient(Ingredient newIngredient) {
+    JSONObject ingredientJson = new JSONObject();
+    ingredientJson.put("name", newIngredient.getName());
+    ingredientJson.put("unit", newIngredient.getUnit());
+    ingredientJson.put("price", newIngredient.getPrice());
+    JSONArray ingredientList = readIngredients();
+    ingredientList.put(ingredientJson);
+    updateIngredients(ingredientList);
+  }
+
+  private static void saveRecipes(RecipeBook listToAdd) {
+    updateRecipes(new JSONArray());
+    listToAdd.getAllRecipes().forEach(recipe -> writeToRecipe(recipe));
+  }
+
+  private static void saveIngredients(IngredientStore listToAdd) {
+    listToAdd.getAllIngredients().forEach(ingredient -> {
+      writeIngredient(ingredient);
+    });
+  }
+
+  public static void saveToJson() {
+    updateIngredients(new JSONArray());
+    saveIngredients(RecipeApp.ingredients);
+    saveRecipes(RecipeApp.recipes);
   }
 }

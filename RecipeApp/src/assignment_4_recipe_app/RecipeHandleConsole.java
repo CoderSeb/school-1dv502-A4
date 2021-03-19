@@ -2,6 +2,7 @@ package assignment_4_recipe_app;
 
 import java.util.Scanner;
 import org.json.JSONArray;
+import org.json.JSONObject;
 
 public class RecipeHandleConsole {
   static Scanner optScanner = new Scanner(System.in);
@@ -39,6 +40,7 @@ public class RecipeHandleConsole {
       break;
     default:
       System.out.println("About to exit");
+      RecipeApp.closeApp();
     }
   }
 
@@ -66,19 +68,38 @@ public class RecipeHandleConsole {
       showIngredientOptions();
       break;
     case 'b':
-      createIngredient();
+      promptNewIngredient();
       showIngredientOptions();
       break;
     case 'c':
-      System.out.println("Type ingredient name to remove: ");
-      optScanner.nextLine();
-      RecipeHandleFile.removeIngredient(optScanner.nextLine());
       showIngredientOptions();
       break;
     default:
       showMainOptions();
       break;
     }
+  }
+
+  /**
+   * Displays all ingredients.
+   */
+  public static void showIngredients() {
+    System.out.println("\nIngredients\n" + "---------------");
+    RecipeApp.ingredients.getAllIngredients().forEach(ingredient -> ingredient.parseToString());
+  }
+
+  public static void promptNewIngredient() {
+    System.out.println("Name of new ingredient:");
+    optScanner.nextLine();
+    Ingredient newIngredient = new Ingredient();
+    newIngredient.setName(optScanner.nextLine());
+    System.out.println("Unit of measure:");
+    newIngredient.setUnit(optScanner.nextLine());
+    System.out.println("Price:");
+    newIngredient.setPrice(optScanner.nextDouble());
+    RecipeApp.ingredients.addIngredient(newIngredient);
+    System.out.println("Successfully added ingredient");
+    newIngredient.parseToString();
   }
 
   /**
@@ -106,17 +127,12 @@ public class RecipeHandleConsole {
       showRecipeOptions();
       break;
     case 'b':
-      createRecipe();
       showRecipeOptions();
       break;
     case 'c':
-      System.out.println("Type recipe name to remove: ");
-      optScanner.nextLine();
-      RecipeHandleFile.removeRecipe(optScanner.nextLine());
       showRecipeOptions();
       break;
     case 'd':
-      handleRecipeModification();
       showRecipeOptions();
       break;
     default:
@@ -130,82 +146,7 @@ public class RecipeHandleConsole {
    */
   public static void showRecipes() {
     System.out.println("\nRecipes\n" + "---------------");
-    JSONArray recipes = RecipeHandleFile.readRecipes();
-    for (int i = 0; i < recipes.length(); i++) {
-      System.out
-          .println(recipes.getJSONObject(i).get("name") + ", Portions: " + recipes.getJSONObject(i).get("portions"));
-    }
+    RecipeApp.recipes.getAllRecipes().forEach(recipe -> recipe.parseToString());
   }
 
-  public static void handleRecipeModification() {
-    System.out.println("Type recipe name to modify: ");
-    optScanner.nextLine();
-    String recipeName = optScanner.nextLine();
-    System.out.println("Type number of portions: ");
-    Recipe modifiedRecipe = new Recipe(recipeName, optScanner.nextInt());
-
-    System.out.println("Add a comment (empty if next step): ");
-    optScanner.nextLine();
-    String newComment = optScanner.nextLine();
-    while (newComment.length() > 0) {
-      modifiedRecipe.addComment(newComment);
-      System.out.println("Add a comment (empty if next step): ");
-      newComment = optScanner.nextLine();
-    }
-
-    System.out.println("Add an instruction (empty if next step): ");
-    String newInstruction = optScanner.nextLine();
-    while (newInstruction.length() > 0) {
-      modifiedRecipe.addInstruction(newInstruction);
-      System.out.println("Add an instruction (empty if next step): ");
-      newInstruction = optScanner.nextLine();
-    }
-
-    showIngredients();
-    System.out.println();
-    RecipeHandleFile.modifyRecipe(modifiedRecipe);
-  }
-
-  /**
-   * Creates a recipe from user inputs.
-   */
-  public static void createRecipe() {
-    System.out.println("Type a new recipe name: \n");
-    optScanner.nextLine();
-    String newRecipeName = optScanner.nextLine();
-    System.out.print("Number of portions: ");
-    int newPortions = optScanner.nextInt();
-    Recipe newRecipe = new Recipe(newRecipeName, newPortions);
-    RecipeHandleFile.writeToRecipe(newRecipe);
-  }
-
-  /**
-   * Displays all ingredients.
-   */
-  public static void showIngredients() {
-    System.out.println("\nIngredients\n" + "---------------");
-    JSONArray ingredients = RecipeHandleFile.readIngredients();
-    for (int i = 0; i < ingredients.length(); i++) {
-      Object name = ingredients.getJSONObject(i).get("name");
-      Object unit = ingredients.getJSONObject(i).get("unit");
-      Object price = ingredients.getJSONObject(i).get("price");
-      System.out.println(name + ":" + unit + ":" + price);
-    }
-  }
-
-  /**
-   * Creates an ingredient from user inputs.
-   */
-  public static void createIngredient() {
-    System.out.println("Ingredient name: ");
-    optScanner.nextLine();
-    String ingredientName = optScanner.nextLine();
-    System.out.println("Unit of measure: ");
-    String unit = optScanner.nextLine();
-    System.out.println("Price: ");
-    double price = optScanner.nextDouble();
-    System.out.println("New ingredient is: " + ingredientName + ":" + unit + ":" + price);
-    Ingredient newIngredient = new Ingredient(ingredientName, unit, price);
-    RecipeHandleFile.writeIngredient(newIngredient);
-  }
 }

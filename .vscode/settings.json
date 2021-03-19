@@ -1,7 +1,6 @@
 {
   "java.project.referencedLibraries": [
     "lib/**/*.jar",
-    "RecipeApp/lib/json-20201115.jar",
-    "RecipeApp/lib/json-simple-1.1.1.jar"
+    "RecipeApp/lib/json-20201115.jar"
   ]
 }

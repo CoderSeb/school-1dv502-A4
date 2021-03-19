@@ -5,9 +5,31 @@ public class Ingredient {
   String unitOfMeasure;
   double price;
 
-  public Ingredient(String name, String unitOfMeasure, double price) {
+  public void setName(String name) {
     this.name = name;
-    this.unitOfMeasure = unitOfMeasure;
+  }
+
+  public void setUnit(String unit) {
+    this.unitOfMeasure = unit;
+  }
+
+  public void setPrice(Double price) {
     this.price = price;
+  }
+
+  public String getName() {
+    return name;
+  }
+
+  public String getUnit() {
+    return unitOfMeasure;
+  }
+
+  public Double getPrice() {
+    return price;
+  }
+
+  public void parseToString() {
+    System.out.println(this.name + ":" + this.unitOfMeasure + ":" + this.price);
   }
 }
