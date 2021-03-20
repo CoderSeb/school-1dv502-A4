@@ -4,7 +4,7 @@ package assignment_4_recipe_app;
  * Main class for the recipe application.
  */
 public class RecipeApp {
-  static IngredientStore ingredients = new IngredientStore();
+  public static IngredientStore ingredients = new IngredientStore();
   static RecipeBook recipes = new RecipeBook();
 
   public static void main(String[] args) {

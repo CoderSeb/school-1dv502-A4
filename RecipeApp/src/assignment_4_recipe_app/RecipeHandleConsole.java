@@ -3,6 +3,10 @@ package assignment_4_recipe_app;
 import java.util.ArrayList;
 import java.util.Scanner;
 
+import assignment_4_recipe_app.search.SearchByCost;
+import assignment_4_recipe_app.search.SearchByIngredient;
+import assignment_4_recipe_app.search.SearchStrategy;
+
 /**
  * Class for RecipeHandleConsole.
  */
@@ -125,7 +129,7 @@ public class RecipeHandleConsole {
     System.out.println("(a) - Show all recipes.");
     System.out.println("(b) - Add a recipe.");
     System.out.println("(c) - Remove a recipe.");
-    System.out.println("(d) - Edit a recipe.");
+    System.out.println("(d) - Search for a recipe.");
     System.out.println("(x) - Back to main menu.");
     handleRecipeOptions(optScanner.next().charAt(0));
   }
@@ -150,10 +154,34 @@ public class RecipeHandleConsole {
       showRecipeOptions();
       break;
     case 'd':
+      promptChooseSearch();
       showRecipeOptions();
       break;
     default:
       showMainOptions();
+      break;
+    }
+  }
+
+  /**
+   * Prompts user for different search strategies.
+   */
+  public static void promptChooseSearch() {
+    ArrayList<Recipe> recipeListCopy = new ArrayList<>(RecipeApp.recipes.getAllRecipes());
+    System.out.println("Please choose search strategy:\n(m) for max price search\n(i) for ingredient search");
+    switch (optScanner.next().charAt(0)) {
+    case 'm':
+      SearchStrategy searchM = new SearchByCost();
+      searchM.search(recipeListCopy);
+      recipeListCopy.forEach(recipe -> recipe.parseToString());
+      break;
+    case 'i':
+      SearchStrategy searchI = new SearchByIngredient();
+      searchI.search(recipeListCopy);
+      recipeListCopy.forEach(recipe -> recipe.parseToString());
+      break;
+    default:
+      showRecipeOptions();
       break;
     }
   }
@@ -216,6 +244,27 @@ public class RecipeHandleConsole {
       newComment = optScanner.nextLine();
     }
     RecipeApp.recipes.addRecipe(newRecipe);
+  }
+
+  /**
+   * Prompts user to enter a max price to be used for a recipe search.
+   * 
+   * @return a double value as the max price
+   */
+  public static Double promptRecipeSearchMaxPrice() {
+    System.out.println("Enter a max price to get the available recipes:");
+    return optScanner.nextDouble();
+  }
+
+  /**
+   * Prompts user to enter an ingredient name to be used for a recipe search.
+   * 
+   * @return a string as the ingredient name.
+   */
+  public static String promptRecipeSearchIngredient() {
+    System.out.println("Enter an ingredient name to get recipes with that ingredient:");
+    optScanner.nextLine();
+    return optScanner.nextLine();
   }
 
   /**
