@@ -1,5 +1,6 @@
 package assignment_4_recipe_app;
 
+import java.util.ArrayList;
 import java.util.Scanner;
 
 /**
@@ -145,6 +146,7 @@ public class RecipeHandleConsole {
       showRecipeOptions();
       break;
     case 'c':
+      promptRemoveRecipe();
       showRecipeOptions();
       break;
     case 'd':
@@ -190,8 +192,15 @@ public class RecipeHandleConsole {
         ingredientName = optScanner.nextLine();
       }
     }
+    ArrayList<Ingredient> ingredients = newRecipe.getIngredients();
+    for (int i = 0; i < ingredients.size(); i++) {
+      System.out
+          .println("Please set amount of " + ingredients.get(i).getUnit() + " for " + ingredients.get(i).getName());
+      newRecipe.setIngredientAmounts(ingredients.get(i).getName(), optScanner.nextInt());
+    }
 
     System.out.println("Add an instruction (empty if next step):");
+    optScanner.nextLine();
     String newInstruction = optScanner.nextLine();
     while (newInstruction.length() != 0) {
       newRecipe.addInstruction(newInstruction);
@@ -206,8 +215,15 @@ public class RecipeHandleConsole {
       System.out.println("Add a comment (empty if next step):");
       newComment = optScanner.nextLine();
     }
-
     RecipeApp.recipes.addRecipe(newRecipe);
+  }
 
+  /**
+   * Prompts user for name to remove an ingredient.
+   */
+  public static void promptRemoveRecipe() {
+    System.out.println("Name of recipe to remove:");
+    optScanner.nextLine();
+    RecipeApp.recipes.removeRecipeByName(optScanner.nextLine());
   }
 }

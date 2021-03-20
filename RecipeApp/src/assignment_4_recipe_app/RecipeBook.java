@@ -14,6 +14,7 @@ public class RecipeBook {
       Recipe newRecipe = new Recipe();
       newRecipe.setName(recipe.get("name").toString());
       newRecipe.setNumberOfPortions(recipe.getInt("portions"));
+      newRecipe.setTotalCost(recipe.getDouble("cost"));
       JSONArray ingredients = (JSONArray) recipe.get("ingredients");
       for (int n = 0; n < ingredients.length(); n++) {
         String ingredientName = ingredients.getJSONObject(n).get("name").toString();
@@ -21,6 +22,11 @@ public class RecipeBook {
         if (newIngredient != null) {
           newRecipe.addIngredient(newIngredient);
         }
+      }
+
+      JSONArray ingredientAmounts = (JSONArray) recipe.get("amounts");
+      for (int n = 0; n < ingredientAmounts.length(); n++) {
+        newRecipe.addIngredientAmounts(ingredientAmounts.get(n).toString());
       }
 
       JSONArray instructions = recipe.getJSONArray("instructions");
@@ -54,9 +60,9 @@ public class RecipeBook {
     return null;
   }
 
-  public static void removeRecipeByName(String name) {
+  public void removeRecipeByName(String name) {
     for (int i = 0; i < recipeList.size(); i++) {
-      if (recipeList.get(i).name == name) {
+      if (recipeList.get(i).getName().equals(name)) {
         recipeList.remove(i);
       }
     }

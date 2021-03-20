@@ -54,10 +54,13 @@ public class RecipeHandleFile {
     JSONObject recipeDetails = new JSONObject();
     recipeDetails.put("name", newRecipe.name);
     recipeDetails.put("portions", newRecipe.portions);
+    recipeDetails.put("cost", newRecipe.getCost());
     JSONArray ingredientList = new JSONArray(newRecipe.ingredientList);
+    JSONArray ingredientAmounts = new JSONArray(newRecipe.ingredientAmounts);
     JSONArray instructionList = new JSONArray(newRecipe.instructionList);
     JSONArray commentList = new JSONArray(newRecipe.commentList);
     recipeDetails.put("ingredients", ingredientList);
+    recipeDetails.put("amounts", ingredientAmounts);
     recipeDetails.put("instructions", instructionList);
     recipeDetails.put("comments", commentList);
     JSONArray recipeList = readRecipes();
