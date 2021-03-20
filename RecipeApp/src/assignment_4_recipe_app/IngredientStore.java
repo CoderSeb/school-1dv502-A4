@@ -5,7 +5,7 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 
 public class IngredientStore {
-  static ArrayList<Ingredient> ingredientList = new ArrayList<Ingredient>();
+  private ArrayList<Ingredient> ingredientList = new ArrayList<Ingredient>();
 
   public void getSavedIngredients() {
     JSONArray ingredientsFromJson = RecipeHandleFile.readIngredients();
@@ -25,7 +25,7 @@ public class IngredientStore {
 
   public Ingredient getIngredientByName(String name) {
     for (int i = 0; i < ingredientList.size(); i++) {
-      if (ingredientList.get(i).name.equals(name)) {
+      if (ingredientList.get(i).getName().equals(name)) {
         return ingredientList.get(i);
       }
     }
@@ -38,7 +38,7 @@ public class IngredientStore {
 
   public void removeIngredientByName(String name) {
     for (int i = 0; i < ingredientList.size(); i++) {
-      if (ingredientList.get(i).name.equals(name)) {
+      if (ingredientList.get(i).getName().equals(name)) {
         ingredientList.remove(i);
       }
     }

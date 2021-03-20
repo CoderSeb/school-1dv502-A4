@@ -52,13 +52,13 @@ public class RecipeHandleFile {
    */
   private static void writeToRecipe(Recipe newRecipe) {
     JSONObject recipeDetails = new JSONObject();
-    recipeDetails.put("name", newRecipe.name);
-    recipeDetails.put("portions", newRecipe.portions);
+    recipeDetails.put("name", newRecipe.getName());
+    recipeDetails.put("portions", newRecipe.getNumberOfPortions());
     recipeDetails.put("cost", newRecipe.getCost());
-    JSONArray ingredientList = new JSONArray(newRecipe.ingredientList);
-    JSONArray ingredientAmounts = new JSONArray(newRecipe.ingredientAmounts);
-    JSONArray instructionList = new JSONArray(newRecipe.instructionList);
-    JSONArray commentList = new JSONArray(newRecipe.commentList);
+    JSONArray ingredientList = new JSONArray(newRecipe.getIngredients());
+    JSONArray ingredientAmounts = new JSONArray(newRecipe.getIngredientAmounts());
+    JSONArray instructionList = new JSONArray(newRecipe.getInstructions());
+    JSONArray commentList = new JSONArray(newRecipe.getComments());
     recipeDetails.put("ingredients", ingredientList);
     recipeDetails.put("amounts", ingredientAmounts);
     recipeDetails.put("instructions", instructionList);
@@ -98,21 +98,6 @@ public class RecipeHandleFile {
       e.printStackTrace();
     }
     return null;
-  }
-
-  /**
-   * Removes a recipe given the name.
-   * 
-   * @param recipeName as the recipe name.
-   */
-  public static void removeRecipe(String recipeName) {
-    JSONArray recipes = readRecipes();
-    for (int i = 0; i < recipes.length(); i++) {
-      if (recipes.getJSONObject(i).get("name").toString().equals(recipeName)) {
-        recipes.remove(i);
-      }
-    }
-    updateRecipes(recipes);
   }
 
   /**

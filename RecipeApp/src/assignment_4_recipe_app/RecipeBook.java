@@ -5,7 +5,7 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 
 public class RecipeBook {
-  ArrayList<Recipe> recipeList = new ArrayList<Recipe>();
+  private ArrayList<Recipe> recipeList = new ArrayList<Recipe>();
 
   public void getSavedRecipes() {
     JSONArray recipesFromJson = RecipeHandleFile.readRecipes();
@@ -53,7 +53,7 @@ public class RecipeBook {
 
   public Recipe getRecipeByName(String name) {
     for (int i = 0; i < recipeList.size(); i++) {
-      if (recipeList.get(i).name.equals(name)) {
+      if (recipeList.get(i).getName().equals(name)) {
         return recipeList.get(i);
       }
     }

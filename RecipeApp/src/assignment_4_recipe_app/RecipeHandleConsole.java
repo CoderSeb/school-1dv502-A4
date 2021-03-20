@@ -36,7 +36,7 @@ public class RecipeHandleConsole {
    * 
    * @param option as the user input.
    */
-  public static void handleMainOptions(int option) {
+  private static void handleMainOptions(int option) {
     switch (option) {
     case 1:
       showIngredientOptions();
@@ -53,7 +53,7 @@ public class RecipeHandleConsole {
   /**
    * Displays ingredient menu and calls method to handle user input.
    */
-  public static void showIngredientOptions() {
+  private static void showIngredientOptions() {
     System.out.println("\nIngredient menu");
     System.out.println("(a) - Show all ingredients.");
     System.out.println("(b) - Add an ingredients.");
@@ -67,7 +67,7 @@ public class RecipeHandleConsole {
    * 
    * @param option as the user input.
    */
-  public static void handleIngredientOptions(char option) {
+  private static void handleIngredientOptions(char option) {
     switch (option) {
     case 'a':
       showIngredients();
@@ -90,7 +90,7 @@ public class RecipeHandleConsole {
   /**
    * Displays all ingredients.
    */
-  public static void showIngredients() {
+  private static void showIngredients() {
     System.out.println("\nIngredients\n" + "---------------");
     RecipeApp.ingredients.getAllIngredients().forEach(ingredient -> ingredient.parseToString());
   }
@@ -98,7 +98,7 @@ public class RecipeHandleConsole {
   /**
    * Prompts user for details to create a new ingredient.
    */
-  public static void promptNewIngredient() {
+  private static void promptNewIngredient() {
     System.out.println("Name of new ingredient:");
     optScanner.nextLine();
     Ingredient newIngredient = new Ingredient();
@@ -115,7 +115,7 @@ public class RecipeHandleConsole {
   /**
    * Prompts user for name to remove an ingredient.
    */
-  public static void promptRemoveIngredient() {
+  private static void promptRemoveIngredient() {
     System.out.println("Name of ingredient to remove:");
     optScanner.nextLine();
     RecipeApp.ingredients.removeIngredientByName(optScanner.nextLine());
@@ -124,7 +124,7 @@ public class RecipeHandleConsole {
   /**
    * Displays recipe menu and calls method to handle input.
    */
-  public static void showRecipeOptions() {
+  private static void showRecipeOptions() {
     System.out.println("\nRecipe menu");
     System.out.println("(a) - Show all recipes.");
     System.out.println("(b) - Add a recipe.");
@@ -139,7 +139,7 @@ public class RecipeHandleConsole {
    * 
    * @param option as the user input.
    */
-  public static void handleRecipeOptions(char option) {
+  private static void handleRecipeOptions(char option) {
     switch (option) {
     case 'a':
       showRecipes();
@@ -166,7 +166,7 @@ public class RecipeHandleConsole {
   /**
    * Prompts user for different search strategies.
    */
-  public static void promptChooseSearch() {
+  private static void promptChooseSearch() {
     ArrayList<Recipe> recipeListCopy = new ArrayList<>(RecipeApp.recipes.getAllRecipes());
     System.out.println("Please choose search strategy:\n(m) for max price search\n(i) for ingredient search");
     switch (optScanner.next().charAt(0)) {
@@ -189,7 +189,7 @@ public class RecipeHandleConsole {
   /**
    * Displays all recipes.
    */
-  public static void showRecipes() {
+  private static void showRecipes() {
     System.out.println("\nRecipes\n" + "---------------");
     RecipeApp.recipes.getAllRecipes().forEach(recipe -> recipe.parseToString());
   }
@@ -197,7 +197,7 @@ public class RecipeHandleConsole {
   /**
    * Prompts user for details to create a recipe.
    */
-  public static void promptNewRecipe() {
+  private static void promptNewRecipe() {
     System.out.println("Name of the new recipe:");
     optScanner.nextLine();
     Recipe newRecipe = new Recipe();
@@ -270,7 +270,7 @@ public class RecipeHandleConsole {
   /**
    * Prompts user for name to remove an ingredient.
    */
-  public static void promptRemoveRecipe() {
+  private static void promptRemoveRecipe() {
     System.out.println("Name of recipe to remove:");
     optScanner.nextLine();
     RecipeApp.recipes.removeRecipeByName(optScanner.nextLine());

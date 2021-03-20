@@ -3,13 +3,13 @@ package assignment_4_recipe_app;
 import java.util.*;
 
 public class Recipe {
-  String name;
-  int portions;
-  Double totalCost;
-  ArrayList<String> ingredientAmounts = new ArrayList<String>();
-  ArrayList<String> commentList = new ArrayList<String>();
-  ArrayList<String> instructionList = new ArrayList<String>();
-  ArrayList<Ingredient> ingredientList = new ArrayList<Ingredient>();
+  private String name;
+  private int portions;
+  private Double totalCost;
+  private ArrayList<String> ingredientAmounts = new ArrayList<String>();
+  private ArrayList<String> commentList = new ArrayList<String>();
+  private ArrayList<String> instructionList = new ArrayList<String>();
+  private ArrayList<Ingredient> ingredientList = new ArrayList<Ingredient>();
 
   public void setName(String name) {
     this.name = name;
@@ -71,6 +71,10 @@ public class Recipe {
 
   public ArrayList<Ingredient> getIngredients() {
     return ingredientList;
+  }
+
+  public ArrayList<String> getIngredientAmounts() {
+    return ingredientAmounts;
   }
 
   public Ingredient getIngredientByName(String name) {

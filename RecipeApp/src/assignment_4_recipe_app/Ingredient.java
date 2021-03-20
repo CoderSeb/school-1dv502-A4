@@ -1,9 +1,9 @@
 package assignment_4_recipe_app;
 
 public class Ingredient {
-  String name;
-  String unitOfMeasure;
-  double price;
+  private String name;
+  private String unitOfMeasure;
+  private double price;
 
   public void setName(String name) {
     this.name = name;
