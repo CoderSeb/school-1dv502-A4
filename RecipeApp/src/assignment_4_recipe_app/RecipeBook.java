@@ -16,7 +16,7 @@ public class RecipeBook {
       newRecipe.setNumberOfPortions(recipe.getInt("portions"));
       JSONArray ingredients = (JSONArray) recipe.get("ingredients");
       for (int n = 0; n < ingredients.length(); n++) {
-        String ingredientName = ingredients.getJSONObject(i).get("name").toString();
+        String ingredientName = ingredients.getJSONObject(n).get("name").toString();
         Ingredient newIngredient = RecipeApp.ingredients.getIngredientByName(ingredientName);
         if (newIngredient != null) {
           newRecipe.addIngredient(newIngredient);
