@@ -1,0 +1,6 @@
+{
+  "java.project.referencedLibraries": [
+    "lib/**/*.jar",
+    "RecipeApp/lib/json-20201115.jar"
+  ]
+}
